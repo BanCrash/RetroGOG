@@ -53,6 +53,14 @@ namespace RetroGOG
 				lblGOGStatus.Text = "GOG Galaxy 2.0 is installed in the default location.";
 				GOGFound = true;
 			}
+			else if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\GOG.com\\Galaxy\\plugins\\installed"))
+            {
+				imgGOGStatus.Image = Properties.Resources.warn;
+				lblGOGStatus.Text = "GOG Galaxy 2.0 not found in the default location.";
+				lblGOGBrowse.Visible = true;
+				txtGOGPath.Visible = true;
+				btnGOGBrowse.Visible = true;
+			}
 			else
 			{
 				imgGOGStatus.Image = Properties.Resources.no;
@@ -93,6 +101,23 @@ namespace RetroGOG
 			if (GOGFound == true && RAFound == true)
 			{
 				btnNext.Enabled = true;
+			}
+		}
+
+		private void btnGOGBrowse_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog browser = new OpenFileDialog();
+			browser.Title = "Please select your GalaxyClient.exe file";
+			browser.InitialDirectory = @"c:\";
+			browser.Filter = "GOG Galaxy 2.0 Application|GalaxyClient.exe";
+			browser.FilterIndex = 2;
+			browser.RestoreDirectory = true;
+			if (browser.ShowDialog() == DialogResult.OK)
+			{
+				txtGOGPath.Text = browser.FileName;
+				imgGOGStatus.Image = Properties.Resources.yes;
+				lblGOGStatus.Text = "Retroarch location has been entered by user.";
+				GOGFound = true;
 			}
 		}
 
